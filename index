@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WESST Fotocopy – Fotocopy, Print &amp; Cetak Foto</title>
+<meta name="description" content="Fotocopy, print, scan, cetak foto, dan materai di Pagergunung. Fotocopy hitam putih Rp 500/lembar. Pesan lewat WhatsApp.">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,600;0,700;0,800;1,500&display=swap" rel="stylesheet">
+<style>
+:root{--red:#c2365f;--red-d:#a42a4d;--ink:#0a0a0a;--muted:#5a5046;--cream:#f5ede0;--line:#e2d6c3;--wa:#1b8a4c;--yellow:#f4b820;--orange:#f08a24;--pink:#d1456b;--purple:#7b3fa0;--blue:#3b4ba8;--spectrum:linear-gradient(90deg,#f4b820,#f08a24,#d1456b,#7b3fa0,#3b4ba8)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;font-family:Archivo,system-ui,Arial,sans-serif;color:var(--ink);background:var(--cream);line-height:1.6}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--red);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+h1,h2,h3{margin:0;line-height:1.12;font-weight:800}
+.btn{display:inline-block;background:var(--red);color:#fff;padding:13px 28px;border-radius:99px;font:inherit;font-weight:700;text-decoration:none;border:0;cursor:pointer;text-align:center}
+.btn:hover{background:var(--red-d)}
+.btn.dark{background:var(--ink)}.btn.dark:hover{background:#2a2a2a}
+.btn.wa{background:var(--wa)}.btn.wa:hover{background:#17703f}
+.btn.line{background:transparent;color:var(--ink);border:2px solid var(--ink)}.btn.line:hover{background:#fff}
+
+.nav{position:sticky;top:0;z-index:20;background:var(--cream);border-bottom:4px solid transparent;border-image:var(--spectrum) 1;padding-top:env(safe-area-inset-top,0px)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;height:76px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;font-size:1.6rem;letter-spacing:-.5px;white-space:nowrap}
+.brand b{color:var(--red)}.brand img{height:46px;width:auto}
+.menu{display:flex;gap:26px;align-items:center;overflow-x:auto}
+.menu a{text-decoration:none;font-weight:600;padding:6px 0;border-bottom:2px solid transparent;white-space:nowrap}
+.menu a:hover,.menu a.on{color:var(--red);border-color:var(--red)}
+
+.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:32px;align-items:center;padding:56px 24px 64px}
+.hero h1{font-size:clamp(2.2rem,5vw,3.8rem);letter-spacing:-1.5px}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero p{font-size:1.2rem;color:var(--muted);max-width:46ch;margin:16px 0 26px}
+.hero .acts{display:flex;gap:12px;flex-wrap:wrap}
+.hero img{max-width:100%;height:auto;max-height:350px;justify-self:center}
+
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;padding-bottom:56px}
+.tile{background:#fff;border-radius:16px;padding:22px;border-top:6px solid var(--yellow)}
+.tile:nth-child(2){border-color:var(--orange)}.tile:nth-child(3){border-color:var(--purple)}.tile:nth-child(4){border-color:var(--blue)}
+.tile h3{font-size:1.1rem;margin-bottom:6px}.tile p{margin:0;color:var(--muted);font-size:.95rem}
+
+section{padding:68px 0}
+section.white{background:#fff}
+.head{margin-bottom:30px}
+.head h2{font-size:clamp(1.8rem,3.6vw,2.6rem);letter-spacing:-1px}
+.head p{color:var(--muted);margin:8px 0 0}
+
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px}
+.cat{background:var(--cream);border-radius:16px;padding:22px 12px;text-align:center;font-weight:700;text-decoration:none;display:block}
+.cat:hover{transform:translateY(-3px);transition:transform .15s}
+.cat i{display:grid;place-items:center;width:58px;height:58px;border-radius:16px;margin:0 auto 10px;font-style:normal;font-size:1.5rem;font-weight:800;color:#fff;background:var(--pink)}
+.cat:nth-child(1) i{background:var(--yellow);color:var(--ink)}.cat:nth-child(2) i{background:var(--orange);color:var(--ink)}
+.cat:nth-child(4) i{background:var(--purple)}.cat:nth-child(5) i{background:var(--blue)}
+
+.tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px}
+.tabs button{font:inherit;font-weight:700;padding:9px 20px;border-radius:99px;border:2px solid var(--ink);background:transparent;cursor:pointer;color:var(--ink)}
+.tabs button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+.prod{background:#fff;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;border:1px solid var(--line)}
+.thumb{height:118px;display:flex;align-items:flex-end;padding:14px 18px;color:#fff;font-weight:800;font-size:1.9rem;letter-spacing:-1px}
+.t-bw{background:repeating-linear-gradient(135deg,#0a0a0a 0 14px,#2b2b2b 14px 28px)}
+.t-color{background:var(--spectrum)}.t-color{color:var(--ink)}
+.t-foto{background:linear-gradient(135deg,var(--purple),var(--blue))}
+.pbody{padding:18px;display:flex;flex-direction:column;gap:6px;flex:1}
+.tag{font-size:.8rem;font-weight:700;color:var(--purple)}
+.prod h3{font-size:1.15rem}
+.price{font-size:1.5rem;font-weight:800;color:var(--red)}
+.price small{font-size:.8rem;font-weight:400;color:var(--muted)}
+.buy{display:flex;gap:8px;margin-top:auto;padding-top:10px;align-items:center}
+.buy input{width:84px;font:inherit;padding:10px;border:1px solid #cfc6bb;border-radius:10px}
+.buy .btn{flex:1;padding:11px 12px}
+.sum{font-size:.9rem;color:var(--muted)}
+
+.band{background:var(--ink);color:#fff;border-radius:22px;padding:40px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;border-bottom:8px solid transparent;border-image:var(--spectrum) 1}
+.band h2{font-size:clamp(1.6rem,3.2vw,2.3rem)}.band p{margin:6px 0 0;color:#d8cfc2}
+
+.about{display:grid;grid-template-columns:1fr 1.2fr;gap:48px;align-items:center}
+.about img{max-width:100%;height:auto;max-height:340px;justify-self:center}
+.about h2{font-size:clamp(1.8rem,3.6vw,2.6rem);letter-spacing:-1px;margin-bottom:12px}
+.about p{color:var(--muted);font-size:1.05rem}
+.about ul{list-style:none;padding:0;margin:18px 0 24px;display:grid;gap:10px}
+.about li{padding-left:30px;position:relative;font-weight:600}
+.about li::before{content:"✓";position:absolute;left:0;top:0;width:22px;height:22px;border-radius:50%;background:var(--red);color:#fff;font-size:.8rem;display:grid;place-items:center;line-height:1}
+
+.contact{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+.contact div{background:#fff;border:1px solid var(--line);border-left:5px solid var(--orange);border-radius:12px;padding:20px 22px}
+.contact div:nth-child(2){border-left-color:var(--purple)}.contact div:nth-child(3){border-left-color:var(--blue)}
+.contact h3{font-size:1rem;color:var(--red);margin-bottom:4px}
+.contact a{font-weight:700;word-break:break-word}
+
+footer{background:var(--ink);color:#fff;border-top:5px solid transparent;border-image:var(--spectrum) 1;padding:22px 0 calc(22px + env(safe-area-inset-bottom,0px));font-size:.95rem;font-weight:600}
+.fab{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:30;background:var(--wa);color:#fff;padding:13px 22px;border-radius:99px;font-weight:700;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.fab:hover{background:#17703f}
+
+@media(max-width:860px){.hero,.about{grid-template-columns:1fr}.hero{padding:36px 24px 44px}.hero img{max-height:240px}.about{gap:24px}section{padding:52px 0}.band{padding:28px}}
+@media(max-width:640px){.nav .wrap{height:auto;padding-top:12px;padding-bottom:10px;flex-direction:column;align-items:flex-start;gap:6px}.menu{gap:20px;width:100%}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.cat:hover{transform:none}}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#home" aria-label="WESST Fotocopy"><img src="logo.png" alt="" width="42" height="48">wesst <b>fotocopy</b></a>
+    <nav class="menu" aria-label="Menu utama">
+      <a class="on" href="#home">Home</a><a href="#produk">Produk</a><a href="#layanan">Layanan</a><a href="#tentang">Tentang</a><a href="#kontak">Kontak</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="wrap hero" id="home">
+  <div>
+    <h1>Fotocopy dan print, <em>mudah, murah, cepat.</em></h1>
+    <p>Datang langsung ke toko atau kirim file lewat WhatsApp. Fotocopy hitam putih mulai Rp 500 per lembar.</p>
+    <div class="acts"><a class="btn" href="#produk">Pesan sekarang</a><a class="btn line" href="https://wa.me/6283866268372?text=Halo%20WESST%20Fotocopy%2C%20saya%20mau%20tanya%20layanan." target="_blank" rel="noopener">Chat WhatsApp</a></div>
+  </div>
+  <img src="logo.png" alt="Logo WESST Fotocopy" width="360" height="411">
+</div>
+
+<div class="wrap tiles">
+  <div class="tile"><h3>Proses cepat</h3><p>Fotocopy dan print selesai sambil Anda menunggu.</p></div>
+  <div class="tile"><h3>Pesan lewat WhatsApp</h3><p>Kirim file dan jumlah lembar, kami siapkan.</p></div>
+  <div class="tile"><h3>Harga murah dan jelas</h3><p>Harga per lembar tertera, tanpa biaya tersembunyi.</p></div>
+  <div class="tile"><h3>Layanan lengkap</h3><p>Fotocopy, print, scan, cetak foto, dan materai.</p></div>
+</div>
+
+<section id="layanan" class="white">
+  <div class="wrap">
+    <div class="head"><h2>Layanan kami</h2><p>Pilih kebutuhan Anda.</p></div>
+    <div class="cats">
+      <a class="cat" href="#produk" data-f="fotocopy"><i>F</i>Fotocopy</a>
+      <a class="cat" href="#produk" data-f="print"><i>P</i>Print</a>
+      <a class="cat" href="https://wa.me/6283866268372?text=Halo%2C%20saya%20mau%20scan%20dokumen." target="_blank" rel="noopener"><i>S</i>Scan</a>
+      <a class="cat" href="#produk" data-f="foto"><i>C</i>Cetak Foto</a>
+      <a class="cat" href="https://wa.me/6283866268372?text=Halo%2C%20apakah%20materai%20tersedia%3F" target="_blank" rel="noopener"><i>M</i>Materai</a>
+    </div>
+  </div>
+</section>
+
+<section id="produk">
+  <div class="wrap">
+    <div class="head"><h2>Produk kami</h2><p>Isi jumlah, lalu tekan Pesan. Pesanan terkirim ke WhatsApp kami.</p></div>
+    <div class="tabs" role="group" aria-label="Filter produk">
+      <button type="button" data-f="all" aria-pressed="true">Semua</button>
+      <button type="button" data-f="fotocopy" aria-pressed="false">Fotocopy</button>
+      <button type="button" data-f="print" aria-pressed="false">Print</button>
+      <button type="button" data-f="foto" aria-pressed="false">Cetak Foto</button>
+    </div>
+    <div class="grid" id="grid"></div>
+    <p style="margin-top:22px;color:var(--muted)">Scan, ukuran lain, atau materai? <a href="https://wa.me/6283866268372" target="_blank" rel="noopener">Tanya lewat WhatsApp</a>.</p>
+  </div>
+</section>
+
+<section class="white">
+  <div class="wrap">
+    <div class="band">
+      <div><h2>Mau cetak banyak?</h2><p>Hubungi kami untuk harga khusus jumlah besar.</p></div>
+      <a class="btn wa" href="https://wa.me/6283866268372?text=Halo%20WESST%20Fotocopy%2C%20saya%20mau%20cetak%20dalam%20jumlah%20banyak." target="_blank" rel="noopener">Hubungi kami</a>
+    </div>
+  </div>
+</section>
+
+<section id="tentang">
+  <div class="wrap about">
+    <img src="logo.png" alt="" width="300" height="342">
+    <div>
+      <h2>Solusi fotocopy dan print di Pagergunung</h2>
+      <p>WESST Fotocopy melayani kebutuhan dokumen harian dengan harga bersahabat dan hasil rapi.</p>
+      <ul>
+        <li>Fotocopy hitam putih dan warna</li>
+        <li>Print dokumen dari HP atau flashdisk</li>
+        <li>Scan dan cetak foto</li>
+        <li>Materai dan perlengkapan dokumen</li>
+      </ul>
+      <a class="btn dark" href="https://wa.me/6283866268372?text=Halo%20WESST%20Fotocopy%2C%20saya%20mau%20tanya%20dulu." target="_blank" rel="noopener">Mau tanya dulu</a>
+    </div>
+  </div>
+</section>
+
+<section id="kontak" class="white">
+  <div class="wrap">
+    <div class="head"><h2>Kontak kami</h2><p>Pagergunung, Krajan RT 01 RW 04, sebelah musholla.</p></div>
+    <div class="contact">
+      <div><h3>WhatsApp</h3><a href="https://wa.me/6283866268372" target="_blank" rel="noopener">+62 838 6626 8372</a></div>
+      <div><h3>Email</h3><a href="mailto:fwdwuln@gmail.com">fwdwuln@gmail.com</a></div>
+      <div><h3>Alamat</h3><span>Pagergunung, Krajan RT 01 RW 04, sebelah musholla</span></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap">Lokasi: Pagergunung, Krajan RT 01 RW 04, sebelah musholla &nbsp;|&nbsp; © <span id="yr">2026</span> WESST Fotocopy</div></footer>
+<a class="fab" href="https://wa.me/6283866268372?text=Halo%20WESST%20Fotocopy%2C%20saya%20butuh%20bantuan." target="_blank" rel="noopener">Butuh bantuan? Chat kami</a>
+
+<script>
+(function(){
+  var WA='6283866268372';
+  var P=[
+    {n:'Fotocopy Hitam Putih',c:'fotocopy',t:'bw',p:500,u:'lembar',l:'Fotocopy'},
+    {n:'Fotocopy Warna',c:'fotocopy',t:'color',p:1000,u:'lembar',l:'Fotocopy'},
+    {n:'Print Hitam Putih',c:'print',t:'bw',p:1000,u:'lembar',l:'Print'},
+    {n:'Print Warna',c:'print',t:'color',p:2000,u:'lembar',l:'Print'},
+    {n:'Cetak Foto 2x3 (isi 4 lembar)',c:'foto',t:'foto',p:6000,u:'paket',l:'Foto 2x3'},
+    {n:'Cetak Foto 4x6 (isi 4 lembar)',c:'foto',t:'foto',p:8000,u:'paket',l:'Foto 4x6'}
+  ];
+  var CAT={fotocopy:'Fotocopy',print:'Print',foto:'Cetak Foto'};
+  function rp(n){return 'Rp '+n.toLocaleString('id-ID');}
+  var grid=document.getElementById('grid');
+  P.forEach(function(x){
+    var d=document.createElement('article');d.className='prod';d.dataset.c=x.c;
+    d.innerHTML='<div class="thumb t-'+x.t+'">'+x.l+'</div><div class="pbody"><span class="tag">'+CAT[x.c]+'</span><h3>'+x.n+'</h3>'+
+      '<div class="price">'+rp(x.p)+' <small>/ '+x.u+'</small></div><div class="sum"></div>'+
+      '<div class="buy"><input type="number" min="1" value="1" aria-label="Jumlah '+x.u+'" inputmode="numeric"><a class="btn" target="_blank" rel="noopener" href="#">Pesan</a></div></div>';
+    var inp=d.querySelector('input'),a=d.querySelector('.btn'),sum=d.querySelector('.sum');
+    function up(){
+      var q=Math.max(1,parseInt(inp.value,10)||1),t=q*x.p;
+      sum.textContent=q+' '+x.u+' = '+rp(t);
+      a.href='https://wa.me/'+WA+'?text='+encodeURIComponent('Halo WESST Fotocopy, saya mau pesan '+x.n+' sebanyak '+q+' '+x.u+' (estimasi '+rp(t)+').');
+    }
+    inp.addEventListener('input',up);up();grid.appendChild(d);
+  });
+  var tabs=[].slice.call(document.querySelectorAll('.tabs button'));
+  function filter(f){
+    tabs.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.f===f));});
+    [].slice.call(grid.children).forEach(function(c){c.hidden=!(f==='all'||c.dataset.c===f);});
+  }
+  tabs.forEach(function(b){b.addEventListener('click',function(){filter(b.dataset.f);});});
+  [].slice.call(document.querySelectorAll('.cat[data-f]')).forEach(function(a){a.addEventListener('click',function(){filter(a.dataset.f);});});
+  document.getElementById('yr').textContent=new Date().getFullYear();
+  var links=[].slice.call(document.querySelectorAll('.menu a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'));});
+  window.addEventListener('scroll',function(){
+    var y=window.scrollY+120,cur=0;
+    secs.forEach(function(s,i){if(s&&s.offsetTop<=y)cur=i;});
+    links.forEach(function(a,i){a.classList.toggle('on',i===cur);});
+  },{passive:true});
+})();
+</script>
+</body>
+</html>
