@@ -14,6 +14,7 @@
 html{scroll-behavior:smooth;scroll-padding-top:84px}
 body{margin:0;font-family:Archivo,system-ui,Arial,sans-serif;color:var(--ink);background:var(--cream);line-height:1.6}
 a{color:inherit}
+[hidden]{display:none!important}
 :focus-visible{outline:3px solid var(--red);outline-offset:3px}
 .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
 h1,h2,h3{margin:0;line-height:1.12;font-weight:800}
@@ -200,6 +201,13 @@ footer{background:var(--ink);color:#fff;border-top:5px solid transparent;border-
 <script>
 (function(){
   var WA='6283866268372';
+  /* Jika logo.png belum ada di folder yang sama, tampilkan logo cadangan sederhana */
+  var LOGO='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 137"><rect width="120" height="137" rx="22" fill="#c2365f"/><text x="60" y="64" text-anchor="middle" font-family="Arial,sans-serif" font-weight="800" font-size="34" fill="#fff">WESST</text><text x="60" y="96" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="20" fill="#f4b820">fotocopy</text></svg>');
+  [].slice.call(document.querySelectorAll('img[src="logo.png"]')).forEach(function(im){
+    function swap(){if(im.getAttribute('src')!==LOGO)im.src=LOGO;}
+    im.addEventListener('error',swap);
+    if(im.complete&&im.naturalWidth===0)swap();
+  });
   var P=[
     {n:'Fotocopy Hitam Putih',c:'fotocopy',t:'bw',p:500,u:'lembar',l:'Fotocopy'},
     {n:'Fotocopy Warna',c:'fotocopy',t:'color',p:1000,u:'lembar',l:'Fotocopy'},
