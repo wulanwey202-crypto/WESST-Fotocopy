@@ -112,12 +112,41 @@ section.white{background:#fff}
 .peta iframe{border:0;width:100%;flex:1;min-height:280px;display:block}
 .peta .bar{padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-weight:600}
 .peta .btn{padding:9px 20px}
+.testi{display:grid;grid-template-columns:1fr 1.4fr;gap:28px;align-items:start}
+.tform{background:var(--cream);border-radius:16px;padding:24px;display:grid;gap:14px;border-top:6px solid var(--purple)}
+.tform h3{font-size:1.2rem}
+.tform label.f{display:grid;gap:6px;font-weight:700;font-size:.95rem}
+.tform input[type=text],.tform textarea{font:inherit;font-weight:400;padding:11px 12px;border:1px solid #cfc6bb;border-radius:10px;background:#fff;width:100%}
+.tform textarea{min-height:110px;resize:vertical}
+.tform .cnt{font-size:.8rem;font-weight:400;color:var(--muted);justify-self:end}
+.stars{display:flex;flex-direction:row-reverse;justify-content:flex-end;gap:2px;border:0;padding:0;margin:0;position:relative}
+.stars legend{font-weight:700;font-size:.95rem;padding:0;margin-bottom:4px;float:left;width:100%}
+.stars input{position:absolute;opacity:0;width:1px;height:1px}
+.stars label{font-size:2.1rem;line-height:1;color:#cfc6bb;cursor:pointer;padding:0 2px}
+.stars input:checked~label,.stars label:hover,.stars label:hover~label{color:var(--yellow)}
+.stars input:focus-visible+label{outline:3px solid var(--red);outline-offset:2px;border-radius:6px}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.tmsg{margin:0;font-weight:600;font-size:.95rem}
+.tmsg.err{color:var(--red-d)}.tmsg.ok{color:var(--wa)}
+.tform .btn[disabled]{opacity:.6;cursor:wait}
+.tsum{display:flex;align-items:baseline;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.tsum b{font-size:2.4rem;line-height:1;letter-spacing:-1px}
+.tsum .st{color:var(--yellow);font-size:1.3rem;letter-spacing:2px}
+.tsum span.n{color:var(--muted);font-weight:600}
+.tlist{display:grid;gap:14px;max-height:620px;overflow-y:auto;padding-right:4px}
+.tcard{background:var(--cream);border-radius:14px;padding:16px 18px}
+.tcard .top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline}
+.tcard .nm{font-weight:800}
+.tcard .st{color:var(--yellow);letter-spacing:2px}
+.tcard .dt{font-size:.85rem;color:var(--muted)}
+.tcard p{margin:6px 0 0;white-space:pre-wrap;word-break:break-word}
+.tempty{color:var(--muted);margin:0}
 
 footer{background:var(--ink);color:#fff;border-top:5px solid transparent;border-image:var(--spectrum) 1;padding:22px 0 calc(22px + env(safe-area-inset-bottom,0px));font-size:.95rem;font-weight:600}
 .fab{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:30;background:var(--wa);color:#fff;padding:13px 22px;border-radius:99px;font-weight:700;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,.25)}
 .fab:hover{background:#17703f}
 
-@media(max-width:860px){.lok{grid-template-columns:1fr}.hero,.about{grid-template-columns:1fr}.hero{padding:36px 24px 44px}.hero img{max-height:240px}.about{gap:24px}section{padding:52px 0}.band{padding:28px}}
+@media(max-width:860px){.testi{grid-template-columns:1fr}.lok{grid-template-columns:1fr}.hero,.about{grid-template-columns:1fr}.hero{padding:36px 24px 44px}.hero img{max-height:240px}.about{gap:24px}section{padding:52px 0}.band{padding:28px}}
 @media(max-width:640px){.nav .wrap{height:auto;padding-top:12px;padding-bottom:10px;flex-direction:column;align-items:flex-start;gap:6px}.menu{gap:20px;width:100%}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.cat:hover{transform:none}}
 </style>
@@ -128,7 +157,7 @@ footer{background:var(--ink);color:#fff;border-top:5px solid transparent;border-
   <div class="wrap">
     <a class="brand" href="#home" aria-label="WESST Fotocopy"><img src="logo.png" alt="" width="42" height="48">wesst <b>fotocopy</b></a>
     <nav class="menu" aria-label="Menu utama">
-      <a class="on" href="#home">Home</a><a href="#produk">Produk</a><a href="#layanan">Layanan</a><a href="#tentang">Tentang</a><a href="#kontak">Kontak</a>
+      <a class="on" href="#home">Home</a><a href="#produk">Produk</a><a href="#layanan">Layanan</a><a href="#tentang">Tentang</a><a href="#testimoni">Testimoni</a><a href="#kontak">Kontak</a>
     </nav>
   </div>
 </header>
@@ -205,7 +234,36 @@ footer{background:var(--ink);color:#fff;border-top:5px solid transparent;border-
   </div>
 </section>
 
-<section id="kontak" class="white">
+<section id="testimoni" class="white" hidden>
+  <div class="wrap">
+    <div class="head"><h2>Testimoni dan masukan</h2><p>Cerita pelanggan WESST Fotocopy. Tulis pengalaman Anda, semua pengunjung bisa membacanya.</p></div>
+    <div class="testi">
+      <form class="tform" id="tForm" novalidate>
+        <h3>Tulis testimoni</h3>
+        <label class="f">Nama<input type="text" name="n" maxlength="40" required autocomplete="name" placeholder="Nama Anda"></label>
+        <fieldset class="stars" id="tStars">
+          <legend>Penilaian</legend>
+          <input type="radio" name="r" id="r5" value="5"><label for="r5" title="5 bintang" aria-label="5 bintang">★</label>
+          <input type="radio" name="r" id="r4" value="4"><label for="r4" title="4 bintang" aria-label="4 bintang">★</label>
+          <input type="radio" name="r" id="r3" value="3"><label for="r3" title="3 bintang" aria-label="3 bintang">★</label>
+          <input type="radio" name="r" id="r2" value="2"><label for="r2" title="2 bintang" aria-label="2 bintang">★</label>
+          <input type="radio" name="r" id="r1" value="1"><label for="r1" title="1 bintang" aria-label="1 bintang">★</label>
+        </fieldset>
+        <label class="f">Testimoni atau masukan<textarea name="m" maxlength="500" required placeholder="Ceritakan pengalaman Anda di WESST Fotocopy"></textarea></label>
+        <span class="cnt" id="tCnt">0 / 500</span>
+        <div class="hp" aria-hidden="true"><label>Jangan diisi<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+        <button class="btn" type="submit" id="tBtn">Kirim testimoni</button>
+        <p class="tmsg" id="tMsg" role="status"></p>
+      </form>
+      <div>
+        <div class="tsum" id="tSum" hidden></div>
+        <div class="tlist" id="tList" aria-live="polite"><p class="tempty">Memuat testimoni...</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="kontak">
   <div class="wrap">
     <div class="head"><h2>Kontak kami</h2><p>Pagergunung, Krajan RT 01 RW 04, sebelah musholla.</p></div>
     <div class="contact">
@@ -339,6 +397,71 @@ footer{background:var(--ink);color:#fff;border-top:5px solid transparent;border-
     });
     if(HOURS_NOTE){var n=document.getElementById('jamNote');n.textContent=HOURS_NOTE;n.hidden=false;}
     document.getElementById('jam').hidden=false;
+  })();
+
+  /*
+    TESTIMONI - isi API_URL dengan alamat Web App Google Apps Script (lihat PANDUAN-TESTIMONI.md).
+    Selama API_URL kosong, bagian testimoni disembunyikan.
+  */
+  var API_URL='https://script.google.com/macros/s/AKfycbwQUwX6vsivN_RSY4wo7pKhX6t2o6AtQD5-GgtSRS5uM8PtiYHf2dutrpNwVuIq51aodA/exec';
+  (function(){
+    var sec=document.getElementById('testimoni');
+    if(!API_URL){var l=document.querySelector('.menu a[href="#testimoni"]');if(l)l.remove();return;}
+    sec.hidden=false;
+    var list=document.getElementById('tList'),sumEl=document.getElementById('tSum'),form=document.getElementById('tForm'),
+        msg=document.getElementById('tMsg'),btn=document.getElementById('tBtn'),cnt=document.getElementById('tCnt');
+    function stars(n){return '★★★★★'.slice(0,n)+'☆☆☆☆☆'.slice(0,5-n);}
+    function fmt(t){var d=new Date(t);return isNaN(d.getTime())?'':d.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});}
+    function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e;}
+    function say(t,type){msg.textContent=t;msg.className='tmsg'+(type?' '+type:'');}
+    function render(items){
+      list.textContent='';sumEl.textContent='';
+      if(!items.length){sumEl.hidden=true;list.appendChild(el('p','tempty','Belum ada testimoni. Jadilah yang pertama menulis.'));return;}
+      var tot=0;items.forEach(function(x){tot+=x.r;});
+      var avg=tot/items.length;
+      var b=el('b','',avg.toFixed(1).replace('.',','));
+      var st=el('span','st',stars(Math.round(avg)));st.setAttribute('aria-label','Rata-rata '+avg.toFixed(1)+' dari 5');
+      sumEl.appendChild(b);sumEl.appendChild(st);sumEl.appendChild(el('span','n',items.length+' testimoni'));
+      sumEl.hidden=false;
+      items.forEach(function(x){
+        var c=el('article','tcard'),top=el('div','top');
+        var who=el('div');who.appendChild(el('div','nm',String(x.n).trim()));
+        var s=el('div','st',stars(x.r));s.setAttribute('aria-label','Rating '+x.r+' dari 5');who.appendChild(s);
+        top.appendChild(who);top.appendChild(el('span','dt',fmt(x.t)));
+        c.appendChild(top);c.appendChild(el('p','',String(x.m).trim()));
+        list.appendChild(c);
+      });
+    }
+    function load(){
+      fetch(API_URL).then(function(r){return r.json();}).then(function(d){
+        if(!d||!d.ok)throw new Error('x');render(d.items||[]);
+      }).catch(function(){
+        list.textContent='';sumEl.hidden=true;
+        list.appendChild(el('p','tempty','Testimoni belum bisa dimuat. Coba muat ulang halaman.'));
+      });
+    }
+    form.m.addEventListener('input',function(){cnt.textContent=form.m.value.length+' / 500';});
+    form.addEventListener('submit',function(ev){
+      ev.preventDefault();
+      var n=form.n.value.trim(),m=form.m.value.trim(),rr=form.querySelector('input[name="r"]:checked');
+      if(!n){say('Isi nama Anda.','err');form.n.focus();return;}
+      if(!rr){say('Pilih jumlah bintang.','err');return;}
+      if(m.length<5){say('Tulis testimoni minimal 5 huruf.','err');form.m.focus();return;}
+      try{var last=parseInt(localStorage.getItem('wesst_t')||'0',10);
+        if(Date.now()-last<120000){say('Tunggu sebentar sebelum mengirim lagi.','err');return;}}catch(e){}
+      btn.disabled=true;say('Mengirim...');
+      fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
+        body:JSON.stringify({n:n,m:m,r:parseInt(rr.value,10),website:form.website.value})})
+      .then(function(r){return r.json();}).then(function(d){
+        if(!d||!d.ok)throw new Error(d&&d.error||'x');
+        try{localStorage.setItem('wesst_t',String(Date.now()));}catch(e){}
+        form.reset();cnt.textContent='0 / 500';
+        say(d.pending?'Terima kasih. Testimoni Anda akan tampil setelah dicek.':'Terima kasih. Testimoni Anda sudah tampil.','ok');
+        if(!d.pending)load();
+      }).catch(function(){say('Testimoni belum terkirim. Periksa sambungan internet lalu coba lagi.','err');})
+      .then(function(){btn.disabled=false;});
+    });
+    load();
   })();
   var tabs=[].slice.call(document.querySelectorAll('.tabs button'));
   function filter(f){
