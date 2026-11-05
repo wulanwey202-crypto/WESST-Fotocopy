@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>WESST Fotocopy – Fotocopy, Print &amp; Cetak Foto</title>
-<meta name="description" content="Fotocopy, print, scan, cetak foto, dan materai di Pagergunung. Fotocopy hitam putih Rp 500/lembar. Pesan lewat WhatsApp.">
+<meta name="description" content="Fotocopy, print, scan, cetak foto, amplop, map, dan materai di Pagergunung. Fotocopy hitam putih Rp 500/lembar. Pesan lewat WhatsApp.">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,600;0,700;0,800;1,500&display=swap" rel="stylesheet">
@@ -69,11 +69,14 @@ section.white{background:#fff}
 .t-bw{background:repeating-linear-gradient(135deg,#0a0a0a 0 14px,#2b2b2b 14px 28px)}
 .t-color{background:var(--spectrum)}.t-color{color:var(--ink)}
 .t-foto{background:linear-gradient(135deg,var(--purple),var(--blue))}
+.t-scan{background:linear-gradient(135deg,var(--blue),#2a3680)}
+.t-atk{background:linear-gradient(135deg,var(--orange),var(--pink))}
 .pbody{padding:18px;display:flex;flex-direction:column;gap:6px;flex:1}
 .tag{font-size:.8rem;font-weight:700;color:var(--purple)}
 .prod h3{font-size:1.15rem}
 .price{font-size:1.5rem;font-weight:800;color:var(--red)}
 .price small{font-size:.8rem;font-weight:400;color:var(--muted)}
+.price.ask{font-size:1.1rem;color:var(--ink)}
 .buy{display:flex;gap:8px;margin-top:auto;padding-top:10px;align-items:center}
 .buy input{width:84px;font:inherit;padding:10px;border:1px solid #cfc6bb;border-radius:10px}
 .buy .btn{flex:1;padding:11px 12px}
@@ -139,9 +142,9 @@ footer{background:var(--ink);color:#fff;border-top:5px solid transparent;border-
     <div class="cats">
       <a class="cat" href="#produk" data-f="fotocopy"><i>F</i>Fotocopy</a>
       <a class="cat" href="#produk" data-f="print"><i>P</i>Print</a>
-      <a class="cat" href="https://wa.me/6283866268372?text=Halo%2C%20saya%20mau%20scan%20dokumen." target="_blank" rel="noopener"><i>S</i>Scan</a>
+      <a class="cat" href="#produk" data-f="scan"><i>S</i>Scan</a>
       <a class="cat" href="#produk" data-f="foto"><i>C</i>Cetak Foto</a>
-      <a class="cat" href="https://wa.me/6283866268372?text=Halo%2C%20apakah%20materai%20tersedia%3F" target="_blank" rel="noopener"><i>M</i>Materai</a>
+      <a class="cat" href="#produk" data-f="atk"><i>M</i>Materai &amp; Perlengkapan</a>
     </div>
   </div>
 </section>
@@ -153,10 +156,12 @@ footer{background:var(--ink);color:#fff;border-top:5px solid transparent;border-
       <button type="button" data-f="all" aria-pressed="true">Semua</button>
       <button type="button" data-f="fotocopy" aria-pressed="false">Fotocopy</button>
       <button type="button" data-f="print" aria-pressed="false">Print</button>
+      <button type="button" data-f="scan" aria-pressed="false">Scan</button>
       <button type="button" data-f="foto" aria-pressed="false">Cetak Foto</button>
+      <button type="button" data-f="atk" aria-pressed="false">Perlengkapan</button>
     </div>
     <div class="grid" id="grid"></div>
-    <p style="margin-top:22px;color:var(--muted)">Scan, ukuran lain, atau materai? <a href="https://wa.me/6283866268372" target="_blank" rel="noopener">Tanya lewat WhatsApp</a>.</p>
+    <p style="margin-top:22px;color:var(--muted)">Butuh ukuran lain atau pesanan khusus? <a href="https://wa.me/6283866268372" target="_blank" rel="noopener">Tanya lewat WhatsApp</a>.</p>
   </div>
 </section>
 
@@ -179,7 +184,7 @@ footer{background:var(--ink);color:#fff;border-top:5px solid transparent;border-
         <li>Fotocopy hitam putih dan warna</li>
         <li>Print dokumen dari HP atau flashdisk</li>
         <li>Scan dan cetak foto</li>
-        <li>Materai dan perlengkapan dokumen</li>
+        <li>Materai, amplop, dan map kertas warna</li>
       </ul>
       <a class="btn dark" href="https://wa.me/6283866268372?text=Halo%20WESST%20Fotocopy%2C%20saya%20mau%20tanya%20dulu." target="_blank" rel="noopener">Mau tanya dulu</a>
     </div>
@@ -211,15 +216,26 @@ footer{background:var(--ink);color:#fff;border-top:5px solid transparent;border-
     im.addEventListener('error',swap);
     if(im.complete&&im.naturalWidth===0)swap();
   });
+
+  /*
+    DAFTAR PRODUK
+    n=nama, c=kategori, t=gaya latar cadangan, p=harga (isi angka, atau null jika belum ada harga),
+    u=satuan, l=label cadangan, k=nama file cadangan di folder foto/, i=nama file gambar di folder utama
+    Untuk mengisi harga produk baru, ganti null dengan angka, contoh: p:2000
+  */
   var P=[
     {n:'Fotocopy Hitam Putih',c:'fotocopy',t:'bw',p:500,u:'lembar',l:'Fotocopy',k:'fotocopy-hitam-putih',i:'Fotocopy Hitam Putih.jpg'},
     {n:'Fotocopy Warna',c:'fotocopy',t:'color',p:1000,u:'lembar',l:'Fotocopy',k:'fotocopy-warna',i:'Fotocopy Warna.jpg'},
     {n:'Print Hitam Putih',c:'print',t:'bw',p:1000,u:'lembar',l:'Print',k:'print-hitam-putih',i:'Print Hitam Putih.jpg'},
     {n:'Print Warna',c:'print',t:'color',p:2000,u:'lembar',l:'Print',k:'print-warna',i:'Print Warna.jpg'},
+    {n:'Scan Dokumen',c:'scan',t:'scan',p:null,u:'lembar',l:'Scan',k:'scan-dokumen',i:'Scan Dokumen.jpg'},
     {n:'Cetak Foto 2x3 (isi 4 lembar)',c:'foto',t:'foto',p:6000,u:'paket',l:'Foto 2x3',k:'cetak-foto-2x3',i:'Cetak Foto 2x3 (isi 4 lembar).jpg'},
-    {n:'Cetak Foto 4x6 (isi 4 lembar)',c:'foto',t:'foto',p:8000,u:'paket',l:'Foto 4x6',k:'cetak-foto-4x6',i:'Cetak Foto 4x6 (isi 4 lembar).jpg'}
+    {n:'Cetak Foto 4x6 (isi 4 lembar)',c:'foto',t:'foto',p:8000,u:'paket',l:'Foto 4x6',k:'cetak-foto-4x6',i:'Cetak Foto 4x6 (isi 4 lembar).jpg'},
+    {n:'Amplop Coklat',c:'atk',t:'atk',p:null,u:'buah',l:'Amplop',k:'amplop-coklat',i:'Amplop Coklat.jpg'},
+    {n:'Map Kertas Warna',c:'atk',t:'atk',p:null,u:'buah',l:'Map',k:'map-kertas-warna',i:'Map Kertas Warna.jpg'},
+    {n:'Matrai',c:'atk',t:'atk',p:null,u:'buah',l:'Matrai',k:'matrai',i:'Matrai.jpg'}
   ];
-  var CAT={fotocopy:'Fotocopy',print:'Print',foto:'Cetak Foto'};
+  var CAT={fotocopy:'Fotocopy',print:'Print',scan:'Scan',foto:'Cetak Foto',atk:'Perlengkapan'};
   function rp(n){return 'Rp '+n.toLocaleString('id-ID');}
   /* Foto produk: dicari di folder foto/ lalu di folder utama. Jika tidak ada, ilustrasi tetap tampil. */
   var FOLD=['foto/',''],EXT=['jpg','jpeg','png','webp'];
@@ -242,14 +258,24 @@ footer{background:var(--ink);color:#fff;border-top:5px solid transparent;border-
   var grid=document.getElementById('grid');
   P.forEach(function(x){
     var d=document.createElement('article');d.className='prod';d.dataset.c=x.c;
+    var priceHtml=x.p===null
+      ? '<div class="price ask">Tanya harga lewat WhatsApp</div>'
+      : '<div class="price">'+rp(x.p)+' <small>/ '+x.u+'</small></div>';
     d.innerHTML='<div class="thumb t-'+x.t+'"><span class="lbl">'+x.l+'</span></div><div class="pbody"><span class="tag">'+CAT[x.c]+'</span><h3>'+x.n+'</h3>'+
-      '<div class="price">'+rp(x.p)+' <small>/ '+x.u+'</small></div><div class="sum"></div>'+
-      '<div class="buy"><input type="number" min="1" value="1" aria-label="Jumlah '+x.u+'" inputmode="numeric"><a class="btn" target="_blank" rel="noopener" href="#">Pesan</a></div></div>';
+      priceHtml+'<div class="sum"></div>'+
+      '<div class="buy"><input type="number" min="1" value="1" aria-label="Jumlah '+x.u+'" inputmode="numeric"><a class="btn" target="_blank" rel="noopener" href="#">'+(x.p===null?'Tanya':'Pesan')+'</a></div></div>';
     var inp=d.querySelector('input'),a=d.querySelector('.btn'),sum=d.querySelector('.sum');
     function up(){
-      var q=Math.max(1,parseInt(inp.value,10)||1),t=q*x.p;
-      sum.textContent=q+' '+x.u+' = '+rp(t);
-      a.href='https://wa.me/'+WA+'?text='+encodeURIComponent('Halo WESST Fotocopy, saya mau pesan '+x.n+' sebanyak '+q+' '+x.u+' (estimasi '+rp(t)+').');
+      var q=Math.max(1,parseInt(inp.value,10)||1),msg;
+      if(x.p===null){
+        sum.textContent=q+' '+x.u;
+        msg='Halo WESST Fotocopy, saya mau pesan '+x.n+' sebanyak '+q+' '+x.u+'. Berapa harganya?';
+      }else{
+        var t=q*x.p;
+        sum.textContent=q+' '+x.u+' = '+rp(t);
+        msg='Halo WESST Fotocopy, saya mau pesan '+x.n+' sebanyak '+q+' '+x.u+' (estimasi '+rp(t)+').';
+      }
+      a.href='https://wa.me/'+WA+'?text='+encodeURIComponent(msg);
     }
     loadPhoto(x,d.querySelector('.thumb'));
     inp.addEventListener('input',up);up();grid.appendChild(d);
