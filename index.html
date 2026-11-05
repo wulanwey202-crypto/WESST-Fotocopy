@@ -143,6 +143,11 @@ section.white{background:#fff}
 .tempty{color:var(--muted);margin:0}
 
 .size{align-self:flex-start;font-size:.8rem;font-weight:700;background:var(--cream);border:1px solid var(--line);border-radius:99px;padding:2px 10px}
+.stat{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:.95rem;padding:6px 14px;border-radius:99px;background:#fff;border:1px solid var(--line);margin-bottom:14px}
+.stat .dot{width:10px;height:10px;border-radius:50%;background:#999;flex:none}
+.stat.open{color:#17703f}.stat.open .dot{background:var(--wa)}
+.stat.soon{color:#a8590a}.stat.soon .dot{background:var(--orange)}
+.stat.closed{color:var(--red-d)}.stat.closed .dot{background:var(--red)}
 .cartbtn{position:fixed;right:18px;bottom:calc(78px + env(safe-area-inset-bottom,0px));z-index:30;background:var(--ink);color:#fff;border:0;font:inherit;font-weight:700;padding:13px 22px;border-radius:99px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.25)}
 .cartbtn:hover{background:#2a2a2a}
 dialog.cart{border:0;padding:0;margin:0 0 0 auto;height:100%;max-height:100%;width:min(440px,100%);max-width:100%;background:#fff;color:var(--ink);box-shadow:-8px 0 30px rgba(0,0,0,.25)}
@@ -191,6 +196,7 @@ footer{background:var(--ink);color:#fff;border-top:5px solid transparent;border-
 <main>
 <div class="wrap hero" id="home">
   <div>
+    <div class="stat" hidden><span class="dot" aria-hidden="true"></span><span class="txt"></span></div>
     <h1>Fotocopy dan print, <em>mudah, murah, cepat.</em></h1>
     <p>Datang langsung ke toko atau kirim file lewat WhatsApp. Fotocopy hitam putih kertas A4 mulai Rp 500 per lembar.</p>
     <div class="acts"><a class="btn" href="#produk">Pesan sekarang</a><a class="btn line" href="https://wa.me/6283866268372?text=Halo%20WESST%20Fotocopy%2C%20saya%20mau%20tanya%20layanan." target="_blank" rel="noopener">Chat WhatsApp</a></div>
@@ -300,6 +306,7 @@ footer{background:var(--ink);color:#fff;border-top:5px solid transparent;border-
     <div class="lok">
       <div class="jam" id="jam" hidden>
         <h3>Jam buka</h3>
+        <div class="stat" hidden><span class="dot" aria-hidden="true"></span><span class="txt"></span></div>
         <table><tbody id="jamRows"></tbody></table>
         <p class="note" id="jamNote" hidden></p>
       </div>
@@ -474,8 +481,10 @@ footer{background:var(--ink);color:#fff;border-top:5px solid transparent;border-
     JAM BUKA DAN LOKASI - isi bagian ini
     HOURS: satu baris per hari/kelompok hari, format ['Hari','Jam']. Contoh:
       ['Senin - Sabtu','07.00 - 21.00'], ['Minggu','Tutup']
-    Untuk menandai baris hari ini, tulis nama hari persis: Senin, Selasa, Rabu, Kamis, Jumat, Sabtu, Minggu
-    atau rentang seperti 'Senin - Jumat'. Selama HOURS kosong, kotak jam buka disembunyikan.
+    Tulis nama hari persis: Senin, Selasa, Rabu, Kamis, Jumat, Sabtu, Minggu, atau rentang seperti 'Senin - Jumat'.
+    Format jam: '07.00 - 21.00'. Tulis 'Tutup' untuk hari libur.
+    Status Buka/Tutup dan baris hari ini dihitung otomatis dari data ini (waktu WIB).
+    Selama HOURS kosong, kotak jam buka dan status disembunyikan.
     MAPS_LINK: tempel link dari Google Maps > Bagikan > Salin link (boleh kosong).
     MAPS_EMBED: tempel alamat src dari Google Maps > Bagikan > Sematkan peta (boleh kosong).
   */
@@ -489,18 +498,61 @@ footer{background:var(--ink);color:#fff;border-top:5px solid transparent;border-
     document.getElementById('peta').src=MAPS_EMBED||('https://www.google.com/maps?q='+q+'&output=embed');
     document.getElementById('petaLink').href=MAPS_LINK||('https://www.google.com/maps/search/?api=1&query='+q);
     if(!HOURS.length)return;
-    var D=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'],now=D[new Date().getDay()],ni=D.indexOf(now);
-    function isToday(l){
-      var m=l.split(/\s*[-–]\s*/);
-      if(m.length===2){var a=(D.indexOf(m[0])+6)%7,b=(D.indexOf(m[1])+6)%7,t=(ni+6)%7;if(D.indexOf(m[0])>-1&&D.indexOf(m[1])>-1)return a<=b?(t>=a&&t<=b):(t>=a||t<=b);}
-      return l===now;
+    var D=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'],W={Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6};
+    /* Nama hari ('Senin') atau rentang ('Senin - Sabtu') menjadi daftar nomor hari (0 = Minggu) */
+    function dayIdx(l){
+      var m=l.split(/\s*[-–]\s*/),a=D.indexOf(m[0]),out=[];
+      if(a<0)return out;
+      if(m.length<2)return [a];
+      var b=D.indexOf(m[1]);if(b<0)return out;
+      for(var i=a,n=0;n<7;n++){out.push(i);if(i===b)break;i=(i+1)%7;}
+      return out;
+    }
+    /* Jadwal per hari: {o:menit buka, c:menit tutup} atau null jika tutup */
+    var sched=[null,null,null,null,null,null,null];
+    HOURS.forEach(function(h){
+      var t=/(\d{1,2})[.:](\d{2})\s*[-–]\s*(\d{1,2})[.:](\d{2})/.exec(h[1]),v=null;
+      if(t)v={o:+t[1]*60+ +t[2],c:+t[3]*60+ +t[4]};
+      dayIdx(h[0]).forEach(function(d){sched[d]=v;});
+    });
+    function hm(min){var h=Math.floor(min/60),m=min%60;return (h<10?'0':'')+h+'.'+(m<10?'0':'')+m;}
+    /* Waktu sekarang di Pagergunung (WIB), apa pun zona waktu pengunjung */
+    function nowWib(){
+      try{
+        var p=new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Jakarta',weekday:'short',hour:'numeric',minute:'numeric',hourCycle:'h23'}).formatToParts(new Date()),o={};
+        p.forEach(function(x){o[x.type]=x.value;});
+        return {d:W[o.weekday],m:(+o.hour%24)*60+ +o.minute};
+      }catch(e){var n=new Date();return {d:n.getDay(),m:n.getHours()*60+n.getMinutes()};}
+    }
+    function status(){
+      var n=nowWib(),t=sched[n.d];
+      if(t&&n.m>=t.o&&n.m<t.c){
+        var left=t.c-n.m;
+        return left<=60?{k:'soon',t:'Segera tutup, pukul '+hm(t.c)}:{k:'open',t:'Buka sekarang, tutup pukul '+hm(t.c)};
+      }
+      if(t&&n.m<t.o)return {k:'closed',t:'Tutup sekarang, buka hari ini pukul '+hm(t.o)};
+      for(var i=1;i<=7;i++){
+        var d=(n.d+i)%7,x=sched[d];
+        if(x)return {k:'closed',t:'Tutup sekarang, buka '+(i===1?'besok':D[d])+' pukul '+hm(x.o)};
+      }
+      return {k:'closed',t:'Tutup sekarang'};
     }
     var rows=document.getElementById('jamRows');
     HOURS.forEach(function(h){
-      var tr=document.createElement('tr');if(isToday(h[0]))tr.className='today';
+      var tr=document.createElement('tr');tr.dataset.d=dayIdx(h[0]).join(',');
       var a=document.createElement('td'),b=document.createElement('td');a.textContent=h[0];b.textContent=h[1];
       tr.appendChild(a);tr.appendChild(b);rows.appendChild(tr);
     });
+    function refresh(){
+      var s=status(),n=nowWib();
+      [].slice.call(document.querySelectorAll('.stat')).forEach(function(e){
+        e.className='stat '+s.k;e.hidden=false;e.querySelector('.txt').textContent=s.t;
+      });
+      [].slice.call(rows.children).forEach(function(tr){
+        tr.className=(','+tr.dataset.d+',').indexOf(','+n.d+',')>-1?'today':'';
+      });
+    }
+    refresh();setInterval(refresh,60000);
     if(HOURS_NOTE){var n=document.getElementById('jamNote');n.textContent=HOURS_NOTE;n.hidden=false;}
     document.getElementById('jam').hidden=false;
   })();
