@@ -62,7 +62,10 @@ section.white{background:#fff}
 .tabs button[aria-pressed="true"]{background:var(--ink);color:#fff}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
 .prod{background:#fff;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;border:1px solid var(--line)}
-.thumb{height:118px;display:flex;align-items:flex-end;padding:14px 18px;color:#fff;font-weight:800;font-size:1.9rem;letter-spacing:-1px}
+.thumb{position:relative;overflow:hidden;height:200px;display:flex;align-items:flex-end;padding:14px 18px;color:#fff;font-weight:800;font-size:1.9rem;letter-spacing:-1px}
+.thumb img.ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.thumb.has-img .lbl{display:none}
+.thumb.fit img.ph{object-fit:contain;background:#fff}
 .t-bw{background:repeating-linear-gradient(135deg,#0a0a0a 0 14px,#2b2b2b 14px 28px)}
 .t-color{background:var(--spectrum)}.t-color{color:var(--ink)}
 .t-foto{background:linear-gradient(135deg,var(--purple),var(--blue))}
@@ -209,19 +212,37 @@ footer{background:var(--ink);color:#fff;border-top:5px solid transparent;border-
     if(im.complete&&im.naturalWidth===0)swap();
   });
   var P=[
-    {n:'Fotocopy Hitam Putih',c:'fotocopy',t:'bw',p:500,u:'lembar',l:'Fotocopy'},
-    {n:'Fotocopy Warna',c:'fotocopy',t:'color',p:1000,u:'lembar',l:'Fotocopy'},
-    {n:'Print Hitam Putih',c:'print',t:'bw',p:1000,u:'lembar',l:'Print'},
-    {n:'Print Warna',c:'print',t:'color',p:2000,u:'lembar',l:'Print'},
-    {n:'Cetak Foto 2x3 (isi 4 lembar)',c:'foto',t:'foto',p:6000,u:'paket',l:'Foto 2x3'},
-    {n:'Cetak Foto 4x6 (isi 4 lembar)',c:'foto',t:'foto',p:8000,u:'paket',l:'Foto 4x6'}
+    {n:'Fotocopy Hitam Putih',c:'fotocopy',t:'bw',p:500,u:'lembar',l:'Fotocopy',k:'fotocopy-hitam-putih',i:'Fotocopy Hitam Putih.jpg'},
+    {n:'Fotocopy Warna',c:'fotocopy',t:'color',p:1000,u:'lembar',l:'Fotocopy',k:'fotocopy-warna',i:'Fotocopy Warna.jpg'},
+    {n:'Print Hitam Putih',c:'print',t:'bw',p:1000,u:'lembar',l:'Print',k:'print-hitam-putih',i:'Print Hitam Putih.jpg'},
+    {n:'Print Warna',c:'print',t:'color',p:2000,u:'lembar',l:'Print',k:'print-warna',i:'Print Warna.jpg'},
+    {n:'Cetak Foto 2x3 (isi 4 lembar)',c:'foto',t:'foto',p:6000,u:'paket',l:'Foto 2x3',k:'cetak-foto-2x3',i:'Cetak Foto 2x3 (isi 4 lembar).jpg'},
+    {n:'Cetak Foto 4x6 (isi 4 lembar)',c:'foto',t:'foto',p:8000,u:'paket',l:'Foto 4x6',k:'cetak-foto-4x6',i:'Cetak Foto 4x6 (isi 4 lembar).jpg'}
   ];
   var CAT={fotocopy:'Fotocopy',print:'Print',foto:'Cetak Foto'};
   function rp(n){return 'Rp '+n.toLocaleString('id-ID');}
+  /* Foto produk: dicari di folder foto/ lalu di folder utama. Jika tidak ada, ilustrasi tetap tampil. */
+  var FOLD=['foto/',''],EXT=['jpg','jpeg','png','webp'];
+  function photo(x,th){
+    var c=[];FOLD.forEach(function(f){EXT.forEach(function(e){c.push(f+x.k+'.'+e);});});
+    (function next(i){
+      if(i>=c.length)return;
+      var im=new Image();
+      im.onload=function(){im.className='ph';im.alt=x.n;th.insertBefore(im,th.firstChild);th.classList.add('has-img');};
+      im.onerror=function(){next(i+1);};
+      im.src=c[i];
+    })(0);
+  }
+  function loadPhoto(x,th){
+    var im=new Image();
+    im.onload=function(){im.className='ph';im.alt=x.n;th.insertBefore(im,th.firstChild);th.classList.add('has-img');if(x.c==='foto')th.classList.add('fit');};
+    im.onerror=function(){photo(x,th);};
+    im.src=encodeURI(x.i);
+  }
   var grid=document.getElementById('grid');
   P.forEach(function(x){
     var d=document.createElement('article');d.className='prod';d.dataset.c=x.c;
-    d.innerHTML='<div class="thumb t-'+x.t+'">'+x.l+'</div><div class="pbody"><span class="tag">'+CAT[x.c]+'</span><h3>'+x.n+'</h3>'+
+    d.innerHTML='<div class="thumb t-'+x.t+'"><span class="lbl">'+x.l+'</span></div><div class="pbody"><span class="tag">'+CAT[x.c]+'</span><h3>'+x.n+'</h3>'+
       '<div class="price">'+rp(x.p)+' <small>/ '+x.u+'</small></div><div class="sum"></div>'+
       '<div class="buy"><input type="number" min="1" value="1" aria-label="Jumlah '+x.u+'" inputmode="numeric"><a class="btn" target="_blank" rel="noopener" href="#">Pesan</a></div></div>';
     var inp=d.querySelector('input'),a=d.querySelector('.btn'),sum=d.querySelector('.sum');
@@ -230,6 +251,7 @@ footer{background:var(--ink);color:#fff;border-top:5px solid transparent;border-
       sum.textContent=q+' '+x.u+' = '+rp(t);
       a.href='https://wa.me/'+WA+'?text='+encodeURIComponent('Halo WESST Fotocopy, saya mau pesan '+x.n+' sebanyak '+q+' '+x.u+' (estimasi '+rp(t)+').');
     }
+    loadPhoto(x,d.querySelector('.thumb'));
     inp.addEventListener('input',up);up();grid.appendChild(d);
   });
   var tabs=[].slice.call(document.querySelectorAll('.tabs button'));
