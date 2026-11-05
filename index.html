@@ -99,11 +99,25 @@ section.white{background:#fff}
 .contact h3{font-size:1rem;color:var(--red);margin-bottom:4px}
 .contact a{font-weight:700;word-break:break-word}
 
+.lok{display:grid;grid-template-columns:1fr 1.6fr;gap:18px;margin-top:18px;align-items:stretch}
+.jam{background:#fff;border:1px solid var(--line);border-left:5px solid var(--yellow);border-radius:12px;padding:20px 22px}
+.jam h3{font-size:1rem;color:var(--red);margin-bottom:10px}
+.jam table{width:100%;border-collapse:collapse;font-size:.98rem}
+.jam td{padding:7px 0;border-bottom:1px solid var(--line)}
+.jam tr:last-child td{border-bottom:0}
+.jam td:last-child{text-align:right;font-weight:700}
+.jam tr.today td{color:var(--red);font-weight:800}
+.jam .note{margin:10px 0 0;color:var(--muted);font-size:.9rem}
+.peta{background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;min-height:340px}
+.peta iframe{border:0;width:100%;flex:1;min-height:280px;display:block}
+.peta .bar{padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-weight:600}
+.peta .btn{padding:9px 20px}
+
 footer{background:var(--ink);color:#fff;border-top:5px solid transparent;border-image:var(--spectrum) 1;padding:22px 0 calc(22px + env(safe-area-inset-bottom,0px));font-size:.95rem;font-weight:600}
 .fab{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:30;background:var(--wa);color:#fff;padding:13px 22px;border-radius:99px;font-weight:700;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,.25)}
 .fab:hover{background:#17703f}
 
-@media(max-width:860px){.hero,.about{grid-template-columns:1fr}.hero{padding:36px 24px 44px}.hero img{max-height:240px}.about{gap:24px}section{padding:52px 0}.band{padding:28px}}
+@media(max-width:860px){.lok{grid-template-columns:1fr}.hero,.about{grid-template-columns:1fr}.hero{padding:36px 24px 44px}.hero img{max-height:240px}.about{gap:24px}section{padding:52px 0}.band{padding:28px}}
 @media(max-width:640px){.nav .wrap{height:auto;padding-top:12px;padding-bottom:10px;flex-direction:column;align-items:flex-start;gap:6px}.menu{gap:20px;width:100%}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.cat:hover{transform:none}}
 </style>
@@ -199,6 +213,17 @@ footer{background:var(--ink);color:#fff;border-top:5px solid transparent;border-
       <div><h3>Email</h3><a href="mailto:fwdwuln@gmail.com">fwdwuln@gmail.com</a></div>
       <div><h3>Alamat</h3><span>Pagergunung, Krajan RT 01 RW 04, sebelah musholla</span></div>
     </div>
+    <div class="lok">
+      <div class="jam" id="jam" hidden>
+        <h3>Jam buka</h3>
+        <table><tbody id="jamRows"></tbody></table>
+        <p class="note" id="jamNote" hidden></p>
+      </div>
+      <div class="peta">
+        <iframe id="peta" title="Lokasi WESST Fotocopy di Google Maps" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        <div class="bar"><span>Pagergunung, Krajan RT 01 RW 04</span><a class="btn dark" id="petaLink" target="_blank" rel="noopener" href="#">Buka di Google Maps</a></div>
+      </div>
+    </div>
   </div>
 </section>
 </main>
@@ -280,6 +305,41 @@ footer{background:var(--ink);color:#fff;border-top:5px solid transparent;border-
     loadPhoto(x,d.querySelector('.thumb'));
     inp.addEventListener('input',up);up();grid.appendChild(d);
   });
+
+  /*
+    JAM BUKA DAN LOKASI - isi bagian ini
+    HOURS: satu baris per hari/kelompok hari, format ['Hari','Jam']. Contoh:
+      ['Senin - Sabtu','07.00 - 21.00'], ['Minggu','Tutup']
+    Untuk menandai baris hari ini, tulis nama hari persis: Senin, Selasa, Rabu, Kamis, Jumat, Sabtu, Minggu
+    atau rentang seperti 'Senin - Jumat'. Selama HOURS kosong, kotak jam buka disembunyikan.
+    MAPS_LINK: tempel link dari Google Maps > Bagikan > Salin link (boleh kosong).
+    MAPS_EMBED: tempel alamat src dari Google Maps > Bagikan > Sematkan peta (boleh kosong).
+  */
+  var HOURS=[];
+  var HOURS_NOTE='';
+  var MAPS_LINK='';
+  var MAPS_EMBED='';
+  var ADDR='WESST Fotocopy, Pagergunung, Krajan RT 01 RW 04';
+  (function(){
+    var q=encodeURIComponent(ADDR);
+    document.getElementById('peta').src=MAPS_EMBED||('https://www.google.com/maps?q='+q+'&output=embed');
+    document.getElementById('petaLink').href=MAPS_LINK||('https://www.google.com/maps/search/?api=1&query='+q);
+    if(!HOURS.length)return;
+    var D=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'],now=D[new Date().getDay()],ni=D.indexOf(now);
+    function isToday(l){
+      var m=l.split(/\s*[-–]\s*/);
+      if(m.length===2){var a=(D.indexOf(m[0])+6)%7,b=(D.indexOf(m[1])+6)%7,t=(ni+6)%7;if(D.indexOf(m[0])>-1&&D.indexOf(m[1])>-1)return a<=b?(t>=a&&t<=b):(t>=a||t<=b);}
+      return l===now;
+    }
+    var rows=document.getElementById('jamRows');
+    HOURS.forEach(function(h){
+      var tr=document.createElement('tr');if(isToday(h[0]))tr.className='today';
+      var a=document.createElement('td'),b=document.createElement('td');a.textContent=h[0];b.textContent=h[1];
+      tr.appendChild(a);tr.appendChild(b);rows.appendChild(tr);
+    });
+    if(HOURS_NOTE){var n=document.getElementById('jamNote');n.textContent=HOURS_NOTE;n.hidden=false;}
+    document.getElementById('jam').hidden=false;
+  })();
   var tabs=[].slice.call(document.querySelectorAll('.tabs button'));
   function filter(f){
     tabs.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.f===f));});
